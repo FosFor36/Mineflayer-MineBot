@@ -1,0 +1,17 @@
+{
+  "name": "my-dear-mine-bot",
+  "version": "0.1.0",
+  "description": "Бот для избавления от каких либо рутинных задач, будь то в вашем личном мире, или в мире стороннего сервера",
+  "license": "ISC",
+  "author": "TTC / TimeToCry",
+  "type": "commonjs",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "mineflayer": "^4.33.0",
+    "mineflayer-pathfinder": "^2.4.5",
+    "mineflayer-pvp": "^1.3.2"
+  }
+}
