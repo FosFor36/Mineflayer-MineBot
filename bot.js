@@ -5,7 +5,7 @@ const bot = mineflayer.createBot({
     version: '1.8.8',
     username: 'for_testing',
     host: 'localhost',
-    port: '56259'
+    port: '58947'
 })
 
 bot.loadPlugin(pathfinder)
@@ -25,8 +25,8 @@ bot.on('chat', chatfunc)
 
 function spawnSay() {
     if (silentlog === true) {
-        bot.chat("/tell " + Owner + ' I spawn on server on coord: ' + Math.round((bot.entity.position.x * 10) / 10) + ' ' + Math.round((bot.entity.position.y * 10) / 10) + ' ' + Math.round((bot.entity.position.z * 10) / 10))
-    } else {
+        bot.chat("/tell " + Owner + ' I spawn on server on coord: ' + Math.round((bot.entity.position.x * 10) / 10) + ' ' + Math.round((bot.entity.position.y * 10) / 10) + ' ' + Math.round((bot.entity.position.z * 10) / 10) + 'and gravity' + bot.physics.gravity)
+    } else { 
         bot.chat('I spawn on server on coord: ' + Math.round((bot.entity.position.x * 10) / 10) + ' ' + Math.round((bot.entity.position.y * 10) / 10) + ' ' + Math.round((bot.entity.position.z * 10) / 10))
     }
 }
@@ -43,29 +43,38 @@ function main() {
         bot.entity.velocity = new Vec3(0, 0, 0)
     }
     if (botFunc === 'tp') {
+        bot.physics.gravity = 0
         let botPosition = bot.entity.position
-        const maxTpDistance = 5
+        let v2 = [0, 0, 0]
+        const maxTpDistance = 1
         const [_, params] = outMessage.split(' ')
-        if (!tpTo) {tpTo.set(x, y, z) = params.split(':')}
+        //console.log(params)
+        v2 = params.split(':')
+        //console.log(params.split(':') + ' => ' + v2.toString())
+        tpTo.x = v2[0]; tpTo.y = v2[1]; tpTo.z = v2[2]
+        //console.log(tpTo.toString())
         distance = botPosition.distanceTo(tpTo)
         if (distance < 0.1) {
             botPosition = tpTo
+            bot.physics.gravity = 0.08
             botFunc = ''
             bot.chat('complete') 
         }
         if (distance <= maxTpDistance) {
             botPosition = tpTo
+            bot.physics.gravity = 0.08
             botFunc = ''
             bot.chat('complete')
         }
         v1 = tpTo.subtract(botPosition)
         botPosition.x += (v1.x / distance) * maxTpDistance
-        botPosition.y += (v1.y / distance) * maxTpDistance
+        botPosition.y += ((v1.y / distance) * maxTpDistance)
         botPosition.z += (v1.z / distance) * maxTpDistance
     }
 }
 
-function chatfunc(name, message) {
+function chatfunc(name = '' , message = '') {
+    console.log(name + ' ' + message)
     if (name === bot.username) return
     if (name === Owner){
         if (message === 'setVel'){
@@ -74,7 +83,7 @@ function chatfunc(name, message) {
         if (message === 'sync') {
             botFunc = 'sync'
         }
-        if (message.incudes('tp')) {
+        if (message.includes('tp')) {
             botFunc = 'tp'
             outMessage = message
         }
