@@ -20,3 +20,6 @@ This will install all the necessary libraries for this bot (there are a lot of t
 node bot.js
 ```
 oh yeah, don't forget to set the required IP and Port of your/not your server
+
+
+### And yes, I would make a list right here of what else I want to do, but I don’t have it at hand Markdown syntax right now
